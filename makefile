@@ -3,13 +3,15 @@ LFLAGS=rpc pthread m
 
 FLAGS=
 
+CMDFLAGS=
 
 FLAGS += $(patsubst %,-l%,$(LFLAGS))
 FLAGS += -std=c++14
+FLAGS += $(CMDFLAGS)
 
 .PHONY : fresh clean default touchAll
 
-default: server client
+default: server client nameService
 
 server: Server.cpp
 	@echo "${GREEN}Compilando $< ${NC}"
@@ -19,8 +21,12 @@ client: Client.cpp
 	@echo "${GREEN}Compilando $< ${NC}"
 	@g++ Client.cpp $(FLAGS) -o client
 
+nameService: NameService.cpp
+	@echo "${GREEN}Compilando $< ${NC}"
+	@g++ NameService.cpp $(FLAGS) -o nameService
+
 clean:
-	@rm -f client server \
+	@rm -f client server nameService \
 	wait
 
 
