@@ -1,30 +1,28 @@
-#include <iostream>
 #include "rpc/server.h"
-#include <cstdlib>
+#include "rpc/this_handler.h"
 #include <math.h>
 
-void foo() {
-    std::cout << "foo was called!" << std::endl;
+double divide(double a, double b) {
+    if(b == 0){
+        rpc::this_handler().respond_error("Division by zero");
+    }
+    return a / b;
 }
 
-int main(int argc, char *argv[]) {
-    // Creating a server that listens on port 8080
-    rpc::server srv(7441);
+struct subtractor{
+    double operator()(double a, double b) { return a - b; }
+};
 
-    // Binding the name "foo" to free function foo.
-    // note: the signature is automatically captured
-    srv.bind("foo", &foo);
+struct multiplier{
+    double multiply(double a, double b) { return a * b; }
+};
 
-    // Binding a lambda function to the name "add".
-    srv.bind("add", [](int a, int b) {
-        return a + b;
+int main(int argc, char *args[]){
+    rpc::server servidor(9000);
+    servidor.bind("div", &divide);
+    servidor.bind("sqrt", [](double a){
+        return sqrt(a);
     });
 
-    srv.bind("sqrt",[](float a){ return sqrt(a);});
-
-    // Run the server loop.
-    srv.async_run(4);
-    srv.run();
-
-    return 0;
+    servidor.run();
 }
