@@ -1,0 +1,10 @@
+#linhas iniciando com # serão ignoradas
+
+#serverName			ipString	port
+
+localhost			localhost	7441
+mathServer			localhost	9000	#serviço de matematica
+stringServer		localhost	9001	#serviço de manuseamento de strings
+
+loginServer			localhost	9002	#serviço de login
+validationServer	localhost	9002	#serviço de validação
