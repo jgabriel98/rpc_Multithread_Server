@@ -1,5 +1,5 @@
 
-LFLAGS=rpc pthread
+LFLAGS=rpc pthread m
 
 FLAGS=
 
